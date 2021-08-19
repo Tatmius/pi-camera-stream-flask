@@ -8,6 +8,11 @@ import imutils
 import time
 import numpy as np
 
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+from threading import Thread
+
+
 class VideoCamera(object):
     def __init__(self, flip = False):
         self.vs = PiVideoStream().start()
