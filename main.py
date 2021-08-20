@@ -9,7 +9,7 @@ import time
 import threading
 import os
 
-pi_camera = VideoCamera(flip=True) # flip pi camera if upside down.
+pi_camera = VideoCamera(flipVert=True, flipHor=True) # flip pi camera if upside down.
 
 # App Globals (do not edit)
 app = Flask(__name__)
@@ -29,6 +29,13 @@ def gen(camera):
 def video_feed():
     return Response(gen(pi_camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+def stopCamera():
+    print("stop button is clicked")
+    pi_camera.stop()
+
+#def startCamera():
+#    pi_camera.restart()
+
 
 if __name__ == '__main__':
 

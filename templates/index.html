@@ -101,15 +101,6 @@ button {
 
 }
 
-.top-right-logo {
-  position: absolute;
-  top: 3%;
-  left: 2%;
-  font-size: 38px;
-  color: white;
-  opacity: 0.5;
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -139,33 +130,16 @@ body {
 
     <div class="ignoreCall">
           <a id=decline class="but_def">
-              <button id="button"> 
+              <button id="button" onclick="stopCmera()"> 
                   <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
+              </button>
+	      <button id="button" onclick="startCmera()"> 
+                  <i style="background: blue; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
               </button>
          </a>       
     </div>
 
 </div>
-
-
-    
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-  
-var button = document.getElementById('button');
-
-button.onclick = function() {
-    var div = document.getElementById('newpost');
-    if (div.style.display !== 'none') {
-        div.style.display = 'none';
-    }
-    else {
-        div.style.display = 'block';
-    }
-};
-   
-</script>
 
 </body>
 </html>

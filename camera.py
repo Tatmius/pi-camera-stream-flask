@@ -14,23 +14,37 @@ from threading import Thread
 
 
 class VideoCamera(object):
-    def __init__(self, flip = False):
+    def __init__(self, flipVert = False, flipHor = False):
         self.vs = PiVideoStream().start()
-        self.flip = flip
+        self.flipVert = flipVert
+        self.flipHor = flipHor
         time.sleep(2.0)
 
     def __del__(self):
         self.vs.stop()
 
-    def flip_if_needed(self, frame):
-        if self.flip:
+    def flip_vert(self, frame):
+        if self.flipVert:
             return np.flip(frame, 0)
         return frame
 
+    def flip_hor(self, frame):
+        if self.flipHor:
+            return np.flip(frame, 1)
+        return frame
+
     def get_frame(self):
-        frame = self.flip_if_needed(self.vs.read())
+        frame = self.flip_hor(self.flip_vert(self.vs.read()))
         ret, jpeg = cv2.imencode('.jpg', frame)
         return jpeg.tobytes()
+
+    def stop(self):
+        self.vs.stop()
+        print("now camera is stopped")
+    
+    def restart(self):
+        self.vs.restart()
+        print("now camera is started")
 
         #original code is imustils Pivideostream
 class PiVideoStream:
@@ -86,3 +100,6 @@ class PiVideoStream:
 	def stop(self):
 		# indicate that the thread should be stopped
 		self.stopped = True
+
+        def restart(self):
+                self.stopped = False
