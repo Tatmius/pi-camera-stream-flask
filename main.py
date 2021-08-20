@@ -29,9 +29,9 @@ def gen(camera):
 def video_feed():
     return Response(gen(pi_camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-def stopCamera():
-    print("stop button is clicked")
-    pi_camera.stop()
+#def stopCamera():
+    #print("stop button is clicked")
+    #pi_camera.stop()
 
 #def startCamera():
 #    pi_camera.restart()

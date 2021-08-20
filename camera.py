@@ -12,6 +12,8 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
 
+import atexit
+
 
 class VideoCamera(object):
     def __init__(self, flipVert = False, flipHor = False):
@@ -32,9 +34,12 @@ class VideoCamera(object):
         if self.flipHor:
             return np.flip(frame, 1)
         return frame
+		
+    def rotate(self, frame):
+		    return np.rot90(frame)
 
     def get_frame(self):
-        frame = self.flip_hor(self.flip_vert(self.vs.read()))
+        frame = self.rotate(self.flip_hor(self.flip_vert(self.vs.read())))
         ret, jpeg = cv2.imencode('.jpg', frame)
         return jpeg.tobytes()
 
@@ -46,11 +51,13 @@ class VideoCamera(object):
         self.vs.restart()
         print("now camera is started")
 
-        #original code is imustils Pivideostream
+
+#original code is imustils Pivideostream
 class PiVideoStream:
 	def __init__(self, resolution=(1280, 720), framerate=32, **kwargs):
 		# initialize the camera
 		self.camera = PiCamera()
+		atexit.register(self.close_camera)
 
 		# set camera parameters
 		self.camera.resolution = resolution
@@ -103,3 +110,6 @@ class PiVideoStream:
 
         def restart(self):
                 self.stopped = False
+	
+	def close_camera(self):
+		self.camera.close()
